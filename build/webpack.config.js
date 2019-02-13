@@ -23,6 +23,29 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
+      {
+        // url-loader 会调用file-loader
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+              name: 'imgs/[name]-[hash].ext',
+              publicPath: '../'
+            }
+          }
+        ]
+      },
+      // {
+      //   test: /\.(png|jpg|gif)$/,
+      //   use: [
+      //     {
+      //       loader: ['file-loader', 'url-loader'],
+      //       options: {},
+      //     },
+      //   ],
+      // }
     ]
   },
   plugins: [

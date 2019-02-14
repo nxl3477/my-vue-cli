@@ -8,7 +8,7 @@ module.exports = {
   output: {
     path: join(__dirname, '../dist'),
     filename: 'bundle.js',
-    publicPath: '../dist', //必须加publicPath
+    publicPath: '/', //必须加publicPath
   },
   module: {
     rules: [
@@ -24,42 +24,34 @@ module.exports = {
         loader: 'babel-loader',
       },
       {
-        // url-loader 会调用file-loader
-        test: /\.(png|jpg|gif)$/i,
+        test: /\.sass$/,
         use: [
+          'vue-style-loader',
+          'css-loader',
           {
-            loader: 'url-loader',
+            loader: 'sass-loader',
             options: {
-              limit: 8192,
-              name: 'imgs/[name]-[hash].ext',
-              publicPath: '../'
+              indentedSyntax: true
             }
           }
         ]
-      },
-      // {
-      //   test: /\.(png|jpg|gif)$/,
-      //   use: [
-      //     {
-      //       loader: ['file-loader', 'url-loader'],
-      //       options: {},
-      //     },
-      //   ],
-      // }
+      }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({  // Also generate a test.html
       template: 'index.html'
     }),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new webpack.NamedModulesPlugin(), //用于启动HMR时可以显示模块的相对路径
+    new webpack.HotModuleReplacementPlugin()
   ],
   devServer: {
     host: 'localhost', //可选，ip
     port: 3000, //可选，端口,
     hot: true,
     inline: true,
-    contentBase: resolve(__dirname,'dist'), //可选，基本目录结构
+    // contentBase: 'dist', //可选，基本目录结构
     compress: true //可选，压缩
   }
 }

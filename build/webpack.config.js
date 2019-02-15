@@ -19,9 +19,12 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        // 过滤node_modules
-        exclude: /node_modules/,
         loader: 'babel-loader',
+        // 过滤node_modules
+        exclude: file => (
+          /node_modules/.test(file) &&
+          !/\.vue\.js/.test(file)
+        ),
       },
       {
         test: /\.sass$/,
@@ -33,6 +36,21 @@ module.exports = {
             options: {
               indentedSyntax: true
             }
+          }
+        ]
+      },
+      // 处理pug模板语法
+      {
+        test: /\.pug$/,
+        oneOf: [
+          // 这条规则应用到 Vue 组件内的 `<template lang="pug">`
+          {
+            resourceQuery: /^\?vue/,
+            use: ['pug-plain-loader']
+          },
+          // 这条规则应用到 JavaScript 内的 pug 导入
+          {
+            use: ['raw-loader', 'pug-plain-loader']
           }
         ]
       }

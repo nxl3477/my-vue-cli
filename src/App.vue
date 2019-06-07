@@ -1,22 +1,16 @@
 <template>
   <div>
-    <h1>asd23123333123123123123</h1>
-    <h2>as2d1a</h2>
-    Helloasdjahsdjashd22 {{txt}}
-    <div>
-      <input type="text" v-model="txt" />
-    </div>
+    <router-link to="/">index</router-link>
+    <router-link to="/about">about</router-link>
+    <router-link to="/me">me</router-link>
+    <router-view></router-view>
   </div>
 </template>
 <script>
 export default {
-  data() {
-    return {
-      txt: 'ok'
-    }
-  }
+  name: 'app'
 }
 </script>
-<style>
+<style lang="less">
 
 </style>
